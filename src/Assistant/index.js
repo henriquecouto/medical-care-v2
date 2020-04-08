@@ -16,7 +16,7 @@ export default function Assistent({ children, lang, active }) {
       assistant
         .initialize({
           lang,
-          continuous: false,
+          continuous: true,
           soundex: true,
           debug: true,
           executionKeyword: "Assistente",
