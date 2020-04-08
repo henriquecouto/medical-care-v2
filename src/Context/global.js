@@ -4,7 +4,7 @@ export const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
   const [state, setState] = useState({
-    messages: [{ sender: "doctor", message: "teste" }],
+    messages: [],
   });
 
   return (
