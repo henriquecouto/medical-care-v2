@@ -12,17 +12,17 @@ export default function Assistent({ children, lang, active }) {
   };
 
   useEffect(() => {
-    if (active || true) {
+    if (active) {
       assistant
         .initialize({
           lang,
           continuous: false,
           soundex: true,
           debug: true,
-          executionKeyword: "assistente",
-          obeyKeyword: "assistente",
+          executionKeyword: "Assistente",
+          obeyKeyword: "Assistente",
           listen: true,
-          name: "assistente",
+          name: "Assistente",
         })
         .then(() => {
           assistant.say("Olá!");

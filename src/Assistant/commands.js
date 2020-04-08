@@ -1,9 +1,6 @@
 export default (assistant) => {
-  assistant.on(["finalize o atendimento*"], true).then(() => {
+  assistant.on(["está aí*"], true).then(() => {
     assistant.dontObey();
-
-    let speech = "Finalizando atendimento...";
-
-    assistant.say(speech);
+    assistant.say("Olá");
   });
 };
