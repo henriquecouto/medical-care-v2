@@ -1,25 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Assistant from "./Assistant";
 
 function App() {
+  const [speechActive, setSpeechActive] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Assistant lang="pt-BR" active={speechActive}>
+      <button onClick={() => setSpeechActive(true)}>Ativar assistente</button>
+    </Assistant>
   );
 }
 
