@@ -7,8 +7,19 @@ export const GlobalContextProvider = ({ children }) => {
     messages: [],
   });
 
+  const message = {};
+
+  message.add = (message, setGlobalState) => {
+    setState((prev) => ({
+      ...prev,
+      messages: [...prev.messages, { ...message, key: prev.messages.length }],
+    }));
+  };
+
+  const actions = { message };
+
   return (
-    <GlobalContext.Provider value={[state, setState]}>
+    <GlobalContext.Provider value={[state, actions]}>
       {children}
     </GlobalContext.Provider>
   );

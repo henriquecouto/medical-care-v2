@@ -1,19 +1,24 @@
-import { addMessage } from "./Actions/messages";
-
-export default (assistant, setGlobalState) => {
+export default (assistant, addMessage) => {
+  const say = (speech) => {
+    assistant.say(speech, {
+      onStart: function () {
+        addMessage({ content: speech, sender: "assistant" });
+      },
+    });
+  };
   assistant.redirectRecognizedTextOutput((content, isFinal) => {
     if (isFinal) {
-      addMessage({ content, sender: "doctor" }, setGlobalState);
+      addMessage({ content, sender: "doctor" });
     }
   });
 
   assistant.on(["está aí*"], true).then(() => {
     assistant.dontObey();
-    let speech = "Olá";
-    assistant.say(speech, {
-      onStart: function () {
-        addMessage({ content: speech, sender: "assistant" }, setGlobalState);
-      },
-    });
+    say("Olá");
+  });
+
+  assistant.on("*", true).then(() => {
+    assistant.dontObey();
+    say("Não entendo esse comando");
   });
 };
