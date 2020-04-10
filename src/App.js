@@ -1,17 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Assistant from "./Assistant";
 import { Button, Grid, Divider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { GlobalContext } from "./Context/global";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 
-const useStyles = makeStyles((theme) => ({}));
-
 function App() {
   const [speechActive, setSpeechActive] = useState(false);
-  const [state] = useContext(GlobalContext);
-  const { messages } = state;
 
   if (!speechActive) {
     return (
