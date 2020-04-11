@@ -34,7 +34,7 @@ export const GlobalContextProvider = ({ children }) => {
 
   const user = {
     login: login(setState),
-    logout: logout(setState),
+    logout,
   };
 
   const actions = { message, listening, user };

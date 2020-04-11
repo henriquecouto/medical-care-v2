@@ -9,25 +9,22 @@ export const checkLogin = async () => {
 
 export const login = (setState) => async (user) => {
   try {
-    await localStorage.setItem("auth", JSON.stringify(user));
-    setState((prev) => ({
-      ...prev,
-      user: { ...user, status: true },
-      listening: true,
-    }));
+    if (user) {
+      await localStorage.setItem("auth", JSON.stringify(user));
+      setState((prev) => ({
+        ...prev,
+        user: { ...user, status: true },
+      }));
+    }
   } catch (error) {
     alert("Ocorreu um erro ao fazer login!");
   }
 };
 
-export const logout = (setState) => async () => {
+export const logout = async () => {
   try {
     await localStorage.removeItem("auth");
-    setState((prev) => ({
-      ...prev,
-      user: { status: false },
-      listening: false,
-    }));
+    window.location.reload();
   } catch (error) {
     alert("Ocorreu um erro ao fazer logout!");
   }

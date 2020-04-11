@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const [, { user }] = useContext(GlobalContext);
+  const [, { user, listening }] = useContext(GlobalContext);
 
   const [form, setForm] = useState({ login: "", password: "" });
   const [error, setError] = useState({ status: false, message: "" });
@@ -47,7 +47,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const { data } = await API.post("/auth/login", form);
-
+      listening.set(true);
       user.login(data);
     } catch ({ response: { data } }) {
       setError({ status: true, message: errors[data.message] });

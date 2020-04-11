@@ -1,16 +1,35 @@
 import React, { useContext } from "react";
 import Assistant from "./Assistant";
-import { Grid, Divider } from "@material-ui/core";
+import { Grid, Divider, Button } from "@material-ui/core";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 import { GlobalContext } from "./Context/global";
 import Login from "./components/Login";
 
 function App() {
-  const [{ user }] = useContext(GlobalContext);
+  const [{ user, listening }, actions] = useContext(GlobalContext);
 
   if (!user.status) {
     return <Login />;
+  }
+
+  if (!listening) {
+    return (
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={{ height: "100vh" }}
+      >
+        <Button
+          onClick={() => actions.listening.set(true)}
+          variant="contained"
+          color="primary"
+        >
+          Ativar assistente
+        </Button>
+      </Grid>
+    );
   }
 
   return (
