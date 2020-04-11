@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Assistant from "./Assistant";
-import { Button, Grid, Divider } from "@material-ui/core";
+import { Grid, Divider } from "@material-ui/core";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
 import { GlobalContext } from "./Context/global";
