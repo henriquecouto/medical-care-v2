@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Typography,
   Toolbar,
   AppBar,
   Grid,
   CssBaseline,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { GlobalContext } from "../../Context/global";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({ children }) {
   const classes = useStyles();
+  const [, actions] = useContext(GlobalContext);
 
   return (
     <div className={classes.root}>
@@ -34,10 +37,13 @@ export default function Header({ children }) {
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
               <Grid container alignItems="center">
-                <Typography variant="h6" color="textSecondary">
-                  Medical Care
-                </Typography>
+                <Typography variant="h6">Medical Care</Typography>
               </Grid>
+            </Grid>
+            <Grid item>
+              <Button onClick={actions.user.logout} color="inherit">
+                Sair
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>

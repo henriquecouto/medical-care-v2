@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   listening: {
     ...theme.typography.button,
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.third,
     padding: theme.spacing(1),
     borderRadius: 3,
     marginTop: theme.spacing(1),

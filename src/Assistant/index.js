@@ -5,8 +5,8 @@ import { GlobalContext } from "../Context/global";
 
 const assistant = new Artyom();
 
-export default function Assistent({ children, lang, active }) {
-  const [, { message }] = useContext(GlobalContext);
+export default function Assistent({ children, lang }) {
+  const [{ listening }, actions] = useContext(GlobalContext);
   const renderChildren = () => {
     return Children.map(children, (child) => {
       return cloneElement(child);
@@ -14,28 +14,30 @@ export default function Assistent({ children, lang, active }) {
   };
 
   useEffect(() => {
-    if (active) {
-      assistant
-        .initialize({
-          lang,
-          continuous: true,
-          soundex: true,
-          debug: true,
-          executionKeyword: "Assistente",
-          obeyKeyword: "Assistente",
-          listen: true,
-          name: "Assistente",
-        })
-        .then(() => {})
-        .catch((err) => {
-          console.error("Artyom couldn't be initialized: ", err);
-        });
-    }
-  }, [lang, active]);
+    assistant
+      .initialize({
+        lang,
+        continuous: true,
+        soundex: true,
+        debug: true,
+        speed: 0.9,
+        executionKeyword: "Olívia",
+        obeyKeyword: "Olívia",
+        listen: true,
+        name: "Olívia",
+        mode: "normal",
+      })
+      .then(() => {
+        assistant.dontObey();
+      })
+      .catch((err) => {
+        console.error("Artyom couldn't be initialized: ", err);
+      });
+  }, [lang, listening]);
 
   useEffect(() => {
-    commands(assistant, message.add);
-  }, [message.add]);
+    commands(assistant, actions);
+  }, [actions]);
 
   return <div>{renderChildren()}</div>;
 }

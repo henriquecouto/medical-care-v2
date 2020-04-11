@@ -1,33 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Assistant from "./Assistant";
 import { Button, Grid, Divider } from "@material-ui/core";
 import Header from "./components/Header";
 import Chat from "./components/Chat";
+import { GlobalContext } from "./Context/global";
+import Login from "./components/Login";
 
 function App() {
-  const [speechActive, setSpeechActive] = useState(false);
+  const [{ user }] = useContext(GlobalContext);
 
-  if (!speechActive) {
-    return (
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        style={{ height: "100vh" }}
-      >
-        <Button
-          onClick={() => setSpeechActive(true)}
-          variant="contained"
-          color="primary"
-        >
-          Ativar assistente
-        </Button>
-      </Grid>
-    );
+  if (!user.status) {
+    return <Login />;
   }
 
   return (
-    <Assistant lang="pt-BR" active={speechActive}>
+    <Assistant lang="pt-BR">
       <Header>
         <Grid container>
           <Grid item xs>

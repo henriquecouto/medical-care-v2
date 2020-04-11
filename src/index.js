@@ -9,17 +9,15 @@ const theme = createMuiTheme({
   palette: {
     primary: { main: "#009688" },
     secondary: { main: "#607d8b" },
-    text: { secondary: "#fff" },
+    text: { third: "#fff" },
   },
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <GlobalContextProvider>
-        <App />
-      </GlobalContextProvider>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <GlobalContextProvider>
+      <App />
+    </GlobalContextProvider>
+  </ThemeProvider>,
   document.getElementById("root")
 );

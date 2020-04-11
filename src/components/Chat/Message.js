@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   assistantMsg: {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.third,
   },
 }));
 
