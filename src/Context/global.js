@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
+import API from "../utils/API";
 
 export const GlobalContext = createContext();
 
@@ -8,6 +9,7 @@ export const GlobalContextProvider = ({ children }) => {
     user: { status: false },
     messages: [],
     listening: false,
+    patients: [],
   });
 
   const isLogged = async () => {
@@ -15,9 +17,29 @@ export const GlobalContextProvider = ({ children }) => {
     login(setState)(user);
   };
 
+  const loadPatients = useCallback(async () => {
+    if (state.user.status) {
+      try {
+        const { data } = await API.get("/patients", {
+          headers: { Authorization: `Bearer ${state.user.token}` },
+        });
+        setState((prev) => ({
+          ...prev,
+          patients: data.data,
+        }));
+      } catch (error) {
+        alert("Não foi possível carregar os pacientes");
+      }
+    }
+  }, [state.user]);
+
   useEffect(() => {
     isLogged();
   }, []);
+
+  useEffect(() => {
+    loadPatients();
+  }, [loadPatients]);
 
   const message = {
     add: (message) => {

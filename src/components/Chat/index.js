@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Typography, Divider, Grid } from "@material-ui/core";
 import ScrollToBottom from "react-scroll-to-bottom";
-
 import classNames from "classnames";
+
+import Card from "../Card";
 import { GlobalContext } from "../../Context/global";
 import Message from "./Message";
 
@@ -33,25 +34,20 @@ export default function Chat() {
   const [state, { listening }] = useContext(GlobalContext);
 
   return (
-    <Paper className={classes.root}>
-      <Grid container direction="column">
-        <Grid item className={classes.item}>
-          <Typography variant="h6">Área de comando de voz</Typography>
+    <Card title="Área de comando de voz">
+      <Divider variant="fullWidth" />
+      <ScrollToBottom className={classes.chat}>
+        <Grid item className={classNames(classes.item)}>
+          {state.messages.map((v) => {
+            return <Message {...v} />;
+          })}
         </Grid>
-        <Divider variant="fullWidth" />
-        <ScrollToBottom className={classes.chat}>
-          <Grid item className={classNames(classes.item)}>
-            {state.messages.map((v) => {
-              return <Message {...v} />;
-            })}
-          </Grid>
-        </ScrollToBottom>
-        <Grid item>
-          <Typography className={classes.listening}>
-            {listening && "Ouvindo..."}
-          </Typography>
-        </Grid>
+      </ScrollToBottom>
+      <Grid item>
+        <Typography className={classes.listening}>
+          {listening && "Ouvindo..."}
+        </Typography>
       </Grid>
-    </Paper>
+    </Card>
   );
 }
