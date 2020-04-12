@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
 import API from "../utils/API";
-import { startAppointment, addExam } from "./Actions/appointment";
+import { startAppointment, add, remove } from "./Actions/appointment";
 
 export const GlobalContext = createContext();
 
@@ -63,10 +63,8 @@ export const GlobalContextProvider = ({ children }) => {
 
   const appointment = {
     start: startAppointment(state, setState),
-    addExam: () => {
-      console.log(state);
-      addExam(state, setState);
-    },
+    add: add(setState),
+    remove: remove(setState),
   };
 
   const actions = { message, listening, user, appointment };
