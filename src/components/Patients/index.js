@@ -16,7 +16,8 @@ import { Redirect } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    overflowX: "auto",
+    overflow: "auto",
+    height: "calc(100vh - 155px)",
   },
   table: {
     minWidth: 650,

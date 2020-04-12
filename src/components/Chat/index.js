@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   chat: {
-    height: "calc(100vh - 200px)",
+    height: "calc(100vh - 220px)",
   },
   listening: {
     ...theme.typography.button,
