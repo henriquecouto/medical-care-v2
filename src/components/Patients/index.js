@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import { GlobalContext } from "../../Context/global";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     minWidth: 650,
+  },
+  title: {
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -39,10 +43,17 @@ const TableItem = ({ value }) => {
 
 export default function Patients() {
   const classes = useStyles();
-  const [{ patients }] = useContext(GlobalContext);
+  const [{ appointment, patients }] = useContext(GlobalContext);
+
+  if (appointment) {
+    return <Redirect to="/atendimento" />;
+  }
+
   return (
     <>
-      <Typography variant="h6">Pacientes</Typography>
+      <Typography variant="h6" className={classes.title}>
+        Pacientes
+      </Typography>
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>

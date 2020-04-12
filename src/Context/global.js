@@ -1,15 +1,17 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
 import API from "../utils/API";
+import { startAppointment, addExam } from "./Actions/appointment";
 
 export const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
   const [state, setState] = useState({
-    user: { status: false },
+    user: null,
     messages: [],
     listening: false,
     patients: [],
+    appointment: null,
   });
 
   const isLogged = async () => {
@@ -18,7 +20,7 @@ export const GlobalContextProvider = ({ children }) => {
   };
 
   const loadPatients = useCallback(async () => {
-    if (state.user.status) {
+    if (state.user) {
       try {
         const { data } = await API.get("/patients", {
           headers: { Authorization: `Bearer ${state.user.token}` },
@@ -59,7 +61,15 @@ export const GlobalContextProvider = ({ children }) => {
     logout,
   };
 
-  const actions = { message, listening, user };
+  const appointment = {
+    start: startAppointment(state, setState),
+    addExam: () => {
+      console.log(state);
+      addExam(state, setState);
+    },
+  };
+
+  const actions = { message, listening, user, appointment };
 
   return (
     <GlobalContext.Provider value={[state, actions]}>

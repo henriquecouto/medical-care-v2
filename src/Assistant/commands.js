@@ -1,4 +1,4 @@
-export default (assistant, { message, user }) => {
+export default (assistant, { message, user, appointment }) => {
   const say = (speech, onEnd) => {
     assistant.say(speech, {
       onStart: function () {
@@ -24,9 +24,23 @@ export default (assistant, { message, user }) => {
     say("Saindo da sua conta, um momento...", () => user.logout());
   });
 
-  assistant.on(["prepara um atendimento para o paciente*"], true).then(() => {
+  assistant
+    .on(["prepara um atendimento para o paciente número*"], true)
+    .then((i, patient) => {
+      assistant.dontObey();
+      say("Preparando atendimento, um momento...", () =>
+        appointment.start(
+          patient === "  um" ? 0 : Number(patient) - 1,
+          (error) => say(error)
+        )
+      );
+    });
+
+  assistant.on(["adiciona o exame *"], true).then((i, exam) => {
     assistant.dontObey();
-    say("Preparando atendimento, um momento...");
+    say("Adicionando exame " + exam, () =>
+      appointment.addExam("exam", (error) => say(error))
+    );
   });
 
   assistant.on("*", true).then(() => {

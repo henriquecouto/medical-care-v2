@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Typography, Divider, Grid } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import ScrollToBottom from "react-scroll-to-bottom";
-import classNames from "classnames";
 
 import Card from "../Card";
 import { GlobalContext } from "../../Context/global";
@@ -11,9 +10,6 @@ import Message from "./Message";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-  },
-  item: {
-    padding: theme.spacing(1, 2),
   },
   chat: {
     height: "calc(100vh - 200px)",
@@ -35,19 +31,14 @@ export default function Chat() {
 
   return (
     <Card title="Área de comando de voz">
-      <Divider variant="fullWidth" />
       <ScrollToBottom className={classes.chat}>
-        <Grid item className={classNames(classes.item)}>
-          {state.messages.map((v) => {
-            return <Message {...v} />;
-          })}
-        </Grid>
+        {state.messages.map((v) => {
+          return <Message {...v} />;
+        })}
       </ScrollToBottom>
-      <Grid item>
-        <Typography className={classes.listening}>
-          {listening && "Ouvindo..."}
-        </Typography>
-      </Grid>
+      <Typography className={classes.listening}>
+        {listening && "Ouvindo..."}
+      </Typography>
     </Card>
   );
 }

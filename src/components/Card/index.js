@@ -21,7 +21,9 @@ export default function Card({ children, title }) {
           <Typography variant="h6">{title}</Typography>
         </Grid>
         <Divider variant="fullWidth" />
-        {children}
+        <Grid item className={classes.item}>
+          {children}
+        </Grid>
       </Grid>
     </Paper>
   );
