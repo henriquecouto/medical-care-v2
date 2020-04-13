@@ -98,8 +98,9 @@ export default (assistant, { message, user, appointment }) => {
       }
     }
 
-    console.log("2", medication);
-    say(text);
+    say("Adicionando medicação", () =>
+      appointment.add(medication, "treatment", say)
+    );
   });
 
   assistant.on("*", true).then(() => {

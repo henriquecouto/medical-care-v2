@@ -19,7 +19,7 @@ export default function Assistent({ children, lang }) {
         lang,
         continuous: true,
         soundex: true,
-        debug: true,
+        debug: false,
         speed: 0.9,
         executionKeyword: "Olívia",
         obeyKeyword: "Olívia",
