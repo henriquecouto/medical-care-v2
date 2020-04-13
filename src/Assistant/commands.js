@@ -9,6 +9,7 @@ export default (assistant, { message, user, appointment }) => {
   };
 
   assistant.redirectRecognizedTextOutput((content, isFinal) => {
+    assistant.dontObey();
     if (isFinal) {
       message.add({ content, sender: "doctor" });
     }
@@ -71,6 +72,34 @@ export default (assistant, { message, user, appointment }) => {
     say("Removendo diagnóstico " + diagnosi, () =>
       appointment.remove(diagnosi, "diagnosis", say)
     );
+  });
+
+  // o paciente deve tomar [remedio] a cada [] horas [] vezes
+  assistant.on(["o paciente deve tomar *"], true).then((i, text) => {
+    assistant.dontObey();
+    const textArray = text.split(" ").filter((v) => v !== "");
+    const medication = {};
+    let nameOk = false;
+
+    for (i in textArray) {
+      if (textArray[i].toLowerCase() === "a") nameOk = true;
+      if (!nameOk) {
+        medication.name = medication.name
+          ? `${medication.name} ${textArray[i]}`
+          : textArray[i];
+        console.log("1", textArray[i]);
+      } else {
+        const number = Number(textArray[i]);
+        if (!medication.interval) {
+          medication.interval = number;
+        } else if (!medication.recurrencies) {
+          medication.recurrencies = number;
+        }
+      }
+    }
+
+    console.log("2", medication);
+    say(text);
   });
 
   assistant.on("*", true).then(() => {
