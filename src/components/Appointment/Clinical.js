@@ -46,6 +46,16 @@ const Medication = ({ name, interval, recurrencies }) => {
   );
 };
 
+const Parent = ({ relationship, condition, note }) => {
+  return (
+    <TableRow>
+      <TableCell>{condition}</TableCell>
+      <TableCell>{relationship}</TableCell>
+      <TableCell>{note}</TableCell>
+    </TableRow>
+  );
+};
+
 export default function Clinical({
   exams,
   patient: { familyHistory },
@@ -56,18 +66,39 @@ export default function Clinical({
   const classes = useStyles();
   return (
     <Card title="Dados clínicos">
-      {JSON.stringify({ familyHistory })}
-      <br />
+      <Grid container>
+        <Typography variant="h6" style={{ marginRight: 10 }}>
+          Histórico Familiar:
+        </Typography>
+        {!!familyHistory.length && (
+          <Paper>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Relação</TableCell>
+                  <TableCell>Condição</TableCell>
+                  <TableCell>Nota</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {familyHistory.map((parent, i) => {
+                  return <Parent {...parent} key={i} />;
+                })}
+              </TableBody>
+            </Table>
+          </Paper>
+        )}
+      </Grid>
       <Items name="Exames" items={exams} />
       <Items name="Sintomas" items={symptons} />
       <Items name="Diagnósticos" items={diagnosis} />
 
       <Grid container>
         <Typography variant="h6" style={{ marginRight: 10 }}>
-          Tratamento
+          Tratamento:
         </Typography>
         {!!treatment.length && (
-          <Paper className={classes.medication}>
+          <Paper>
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
