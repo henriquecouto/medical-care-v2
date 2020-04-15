@@ -103,6 +103,13 @@ export default (assistant, { message, user, appointment }) => {
     );
   });
 
+  assistant.on(["remova o remédio *"], true).then((i, medicationName) => {
+    assistant.dontObey();
+    say("Removendo medicação " + medicationName, () =>
+      appointment.remove(medicationName.split(" ")[1], "treatment", say)
+    );
+  });
+
   assistant.on("*", true).then(() => {
     assistant.dontObey();
     say("Olá, não entendi esse comando");

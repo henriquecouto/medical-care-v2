@@ -40,7 +40,15 @@ export const remove = (setState) => (item, field, callback) => {
       callback("O atendimento não foi iniciado");
       return prev;
     }
-    const items = prev.appointment[field].filter((v) => v !== item);
+    let items;
+    if (field === "treatment") {
+      items = prev.appointment[field].filter((v) => v.name !== item);
+    } else {
+      items = prev.appointment[field].filter((v) => v !== item);
+    }
+
+    console.log(items, item);
+
     prev.appointment[field] = items;
     return { ...prev };
   });
