@@ -1,3 +1,5 @@
+import API from "../../utils/API";
+
 const appointmentBase = {
   patient: null,
   exams: [],
@@ -15,6 +17,7 @@ export const startAppointment = (state, setState) => (
     setState((prev) => ({
       ...prev,
       appointment: { ...appointmentBase, patient },
+      redirect: "/atendimento",
     }));
   } else {
     callback("Paciente não encontrado");
@@ -52,4 +55,37 @@ export const remove = (setState) => (item, field, callback) => {
     prev.appointment[field] = items;
     return { ...prev };
   });
+};
+
+export const finalize = (setState) => async (callback) => {
+  let state;
+
+  setState((prev) => {
+    state = prev;
+    console.log(prev);
+    return { ...prev };
+  });
+
+  if (!state.appointment) {
+    return callback("O atendimento não foi iniciado");
+  }
+
+  const appointment = {
+    ...state.appointment,
+    patient: state.appointment.patient._id,
+    doctor: state.user.data._id,
+  };
+
+  try {
+    await API.post("/appointments", appointment, {
+      headers: { Authorization: `Bearer ${state.user.token}` },
+    });
+    setState((prev) => ({
+      ...prev,
+      appointment: null,
+      redirect: `/patient/${appointment.patient}`,
+    }));
+  } catch (error) {
+    callback("Ocorreu um erro ao finalizar o atendimento");
+  }
 };

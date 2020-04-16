@@ -44,11 +44,7 @@ const TableItem = ({ value }) => {
 
 export default function Patients() {
   const classes = useStyles();
-  const [{ appointment, patients }] = useContext(GlobalContext);
-
-  if (appointment) {
-    return <Redirect to="/atendimento" />;
-  }
+  const [{ patients }] = useContext(GlobalContext);
 
   return (
     <>

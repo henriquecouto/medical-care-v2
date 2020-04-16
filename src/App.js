@@ -48,6 +48,9 @@ function App() {
               <Route exact path="/atendimento">
                 <Appointment />
               </Route>
+              <Route exact path="/patient/:id">
+                Hello Patient
+              </Route>
             </Switch>
           </Grid>
           <Divider

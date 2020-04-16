@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
 import API from "../utils/API";
-import { startAppointment, add, remove } from "./Actions/appointment";
+import { startAppointment, add, remove, finalize } from "./Actions/appointment";
+import { Redirect, useHistory } from "react-router-dom";
 
 export const GlobalContext = createContext();
 
@@ -12,7 +13,9 @@ export const GlobalContextProvider = ({ children }) => {
     listening: false,
     patients: [],
     appointment: null,
+    redirect: "",
   });
+  const history = useHistory();
 
   const isLogged = async () => {
     const user = await checkLogin();
@@ -43,6 +46,12 @@ export const GlobalContextProvider = ({ children }) => {
     loadPatients();
   }, [loadPatients]);
 
+  useEffect(() => {
+    if (state.redirect) {
+      history.push(state.redirect);
+    }
+  }, [state.redirect, history]);
+
   const message = {
     add: (message) => {
       setState((prev) => ({
@@ -65,6 +74,7 @@ export const GlobalContextProvider = ({ children }) => {
     start: startAppointment(state, setState),
     add: add(setState),
     remove: remove(setState),
+    finalize: finalize(setState),
   };
 
   const actions = { message, listening, user, appointment };

@@ -15,6 +15,11 @@ export default (assistant, { message, user, appointment }) => {
     }
   });
 
+  assistant.on(["finalize o atendimento*"], true).then(() => {
+    assistant.dontObey();
+    say("Finalizando atendimento", () => appointment.finalize(say));
+  });
+
   assistant.on(["está aí*"], true).then(() => {
     assistant.dontObey();
     say("Olá");
