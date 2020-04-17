@@ -51,17 +51,17 @@ export default (assistant, { message, user, appointment }) => {
     );
   });
 
-  assistant.on(["adiciona o sintoma *"], true).then((i, sympton) => {
+  assistant.on(["adiciona o sintoma *"], true).then((i, symptom) => {
     assistant.dontObey();
-    say("Adicionando sintoma " + sympton, () =>
-      appointment.add(sympton, "symptons", say)
+    say("Adicionando sintoma " + symptom, () =>
+      appointment.add(symptom, "symptoms", say)
     );
   });
 
-  assistant.on(["remova o sintoma *"], true).then((i, sympton) => {
+  assistant.on(["remova o sintoma *"], true).then((i, symptom) => {
     assistant.dontObey();
-    say("Removendo sintoma " + sympton, () =>
-      appointment.remove(sympton, "symptons", say)
+    say("Removendo sintoma " + symptom, () =>
+      appointment.remove(symptom, "symptoms", say)
     );
   });
 

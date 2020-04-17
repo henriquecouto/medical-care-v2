@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Items = ({ name, items }) => {
+const Items = ({ name, items = [] }) => {
   return (
     <Grid container alignItems="center" style={{ marginBottom: 10 }}>
       <Typography variant="h6" style={{ marginRight: 10 }}>
@@ -59,7 +59,7 @@ const Parent = ({ relationship, condition, note }) => {
 export default function Clinical({
   exams,
   patient: { familyHistory },
-  symptons,
+  symptoms,
   diagnosis,
   treatment,
 }) {
@@ -90,7 +90,7 @@ export default function Clinical({
         )}
       </Grid>
       <Items name="Exames" items={exams} />
-      <Items name="Sintomas" items={symptons} />
+      <Items name="Sintomas" items={symptoms} />
       <Items name="Diagnósticos" items={diagnosis} />
 
       <Grid container>

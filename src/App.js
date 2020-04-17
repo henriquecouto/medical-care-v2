@@ -8,7 +8,8 @@ import Chat from "./components/Chat";
 import { GlobalContext } from "./Context/global";
 import Login from "./components/Login";
 import Patients from "./components/Patients";
-import Appointment from "./components/Appointment";
+import MakeAppointment from "./components/MakeAppointment";
+import Patient from "./components/Patient";
 
 function App() {
   const [{ user, listening }, actions] = useContext(GlobalContext);
@@ -46,10 +47,10 @@ function App() {
                 <Patients />
               </Route>
               <Route exact path="/atendimento">
-                <Appointment />
+                <MakeAppointment />
               </Route>
-              <Route exact path="/patient/:id">
-                Hello Patient
+              <Route exact path="/paciente/:patientId">
+                <Patient />
               </Route>
             </Switch>
           </Grid>

@@ -30,7 +30,7 @@ export const add = (setState) => (item, field, callback) => {
       callback("O atendimento não foi iniciado");
       return prev;
     }
-    const items = prev.appointment[field];
+    const items = prev.appointment[field] || [];
     items.push(item);
     prev.appointment[field] = items;
     return { ...prev };
@@ -83,7 +83,7 @@ export const finalize = (setState) => async (callback) => {
     setState((prev) => ({
       ...prev,
       appointment: null,
-      redirect: `/patient/${appointment.patient}`,
+      redirect: `/paciente/${appointment.patient}`,
     }));
   } catch (error) {
     callback("Ocorreu um erro ao finalizar o atendimento");
