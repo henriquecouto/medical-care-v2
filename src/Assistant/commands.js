@@ -1,4 +1,4 @@
-export default (assistant, { message, user, appointment }) => {
+export default (assistant, { message, user, appointment, patient }) => {
   const say = (speech, onEnd) => {
     assistant.say(speech, {
       onStart: function () {
@@ -9,7 +9,7 @@ export default (assistant, { message, user, appointment }) => {
   };
 
   assistant.redirectRecognizedTextOutput((content, isFinal) => {
-    assistant.dontObey();
+    // assistant.dontObey();
     if (isFinal) {
       message.add({ content, sender: "doctor" });
     }
@@ -51,7 +51,7 @@ export default (assistant, { message, user, appointment }) => {
     );
   });
 
-  assistant.on(["adiciona o sintoma *"], true).then((i, symptom) => {
+  assistant.on(["o paciente relatou *"], true).then((i, symptom) => {
     assistant.dontObey();
     say("Adicionando sintoma " + symptom, () =>
       appointment.add(symptom, "symptoms", say)
@@ -112,6 +112,13 @@ export default (assistant, { message, user, appointment }) => {
     assistant.dontObey();
     say("Removendo medicação " + medicationName, () =>
       appointment.remove(medicationName.split(" ")[1], "treatment", say)
+    );
+  });
+
+  assistant.on(["mostra o paciente número*"], true).then((i, patientIndex) => {
+    assistant.dontObey();
+    say("Buscando dados do paciente...", () =>
+      patient.show(patientIndex === "  um" ? 0 : Number(patientIndex) - 1, say)
     );
   });
 

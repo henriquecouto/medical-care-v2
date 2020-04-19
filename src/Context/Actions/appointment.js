@@ -1,9 +1,8 @@
 import API from "../../utils/API";
 
 const appointmentBase = {
-  patient: null,
   exams: [],
-  symptons: [],
+  symptoms: [],
   diagnosis: [],
   treatment: [],
 };
@@ -17,7 +16,7 @@ export const startAppointment = (state, setState) => (
     setState((prev) => ({
       ...prev,
       appointment: { ...appointmentBase, patient },
-      redirect: "/atendimento",
+      redirect: "/app/atendimento",
     }));
   } else {
     callback("Paciente não encontrado");
@@ -83,7 +82,7 @@ export const finalize = (setState) => async (callback) => {
     setState((prev) => ({
       ...prev,
       appointment: null,
-      redirect: `/paciente/${appointment.patient}`,
+      redirect: `/app/paciente/${appointment.patient}`,
     }));
   } catch (error) {
     callback("Ocorreu um erro ao finalizar o atendimento");

@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
 import API from "../utils/API";
 import { startAppointment, add, remove, finalize } from "./Actions/appointment";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
 
 export const GlobalContext = createContext();
 
@@ -65,6 +65,20 @@ export const GlobalContextProvider = ({ children }) => {
     set: (value) => setState((prev) => ({ ...prev, listening: value })),
   };
 
+  const patient = {
+    show: (patientIndex, callback) => {
+      const patient = state.patients[patientIndex];
+      if (patient) {
+        setState((prev) => ({
+          ...prev,
+          redirect: `/app/paciente/${patient._id}`,
+        }));
+      } else {
+        callback("Paciente não encontrado");
+      }
+    },
+  };
+
   const user = {
     login: login(setState),
     logout,
@@ -77,7 +91,7 @@ export const GlobalContextProvider = ({ children }) => {
     finalize: finalize(setState),
   };
 
-  const actions = { message, listening, user, appointment };
+  const actions = { message, listening, user, appointment, patient };
 
   return (
     <GlobalContext.Provider value={[state, actions]}>

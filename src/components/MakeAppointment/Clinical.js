@@ -89,8 +89,8 @@ export default function Clinical({
           </Paper>
         )}
       </Grid>
+      <Items name="Anamnese" items={symptoms} />
       <Items name="Exames" items={exams} />
-      <Items name="Sintomas" items={symptoms} />
       <Items name="Diagnósticos" items={diagnosis} />
 
       <Grid container>

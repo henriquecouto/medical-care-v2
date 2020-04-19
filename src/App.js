@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Assistant from "./Assistant";
 import { Grid, Divider, Button } from "@material-ui/core";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import Header from "./components/Header";
 import Chat from "./components/Chat";
@@ -13,6 +13,7 @@ import Patient from "./components/Patient";
 
 function App() {
   const [{ user, listening }, actions] = useContext(GlobalContext);
+  const match = useRouteMatch();
 
   if (!user) {
     return <Login />;
@@ -43,13 +44,13 @@ function App() {
         <Grid container>
           <Grid item xs>
             <Switch>
-              <Route exact path="/">
+              <Route exact path={match.url + "/"}>
                 <Patients />
               </Route>
-              <Route exact path="/atendimento">
+              <Route exact path={match.url + "/atendimento"}>
                 <MakeAppointment />
               </Route>
-              <Route exact path="/paciente/:patientId">
+              <Route exact path={match.url + "/paciente/:patientId"}>
                 <Patient />
               </Route>
             </Switch>

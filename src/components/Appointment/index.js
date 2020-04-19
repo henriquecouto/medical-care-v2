@@ -9,8 +9,20 @@ import {
   Table,
   TableHead,
   TableBody,
+  IconButton,
+  Tooltip,
+  Button,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+import {
+  Help as HelpIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,20 +47,23 @@ const Items = ({ name, items }) => {
   );
 };
 
-const Medication = ({ name, interval, recurrencies }) => {
+const Medication = ({ name, interval, recurrencies, initialDate }) => {
   return (
     <TableRow>
       <TableCell>{name}</TableCell>
       <TableCell>{interval}</TableCell>
       <TableCell>{recurrencies}</TableCell>
+      <TableCell>{initialDate}</TableCell>
     </TableRow>
   );
 };
 
 export default function Appointment({
-  data: { exams, symptoms, diagnosis, treatment },
+  data: { exams, symptoms, diagnosis, treatment, blocked, ...others },
 }) {
   const classes = useStyles();
+
+  console.log(others);
 
   return (
     <Paper component={Grid} className={classes.root}>
@@ -68,6 +83,7 @@ export default function Appointment({
                   <TableCell>Medicação</TableCell>
                   <TableCell>Intervalo</TableCell>
                   <TableCell>Repetições</TableCell>
+                  <TableCell>Data de Início</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -78,6 +94,17 @@ export default function Appointment({
             </Table>
           </Paper>
         )}
+      </Grid>
+      <Grid container alignItems="center" style={{ marginTop: 10 }}>
+        <Typography variant="h6">Bloqueado: </Typography>
+        <Tooltip title="Indica se o atendimento já foi armazenado de modo seguro">
+          <IconButton size="small">
+            <HelpIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Typography style={{ marginLeft: 5 }}>
+          {blocked ? "Sim" : "Não"}
+        </Typography>
       </Grid>
     </Paper>
   );
