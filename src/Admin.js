@@ -31,7 +31,8 @@ export default function Admin() {
           console.log(_id, registrationDate, blockedCorrect);
           return {
             blocked,
-            date: registrationDate.split("T")[0],
+            // date: registrationDate.split("T")[0],
+            date: "Tudo",
             blockedCorrect,
           };
         }
@@ -48,21 +49,22 @@ export default function Admin() {
           typeof quantitiesBlocked[JSON.stringify(v.date)] === "number"
             ? (quantitiesBlocked[JSON.stringify(v.date)] += 1)
             : (quantitiesBlocked[JSON.stringify(v.date)] = 1);
+
+          if (v.blockedCorrect) {
+            typeof quantitiesBlockedCorrectly[JSON.stringify(v.date)] ===
+            "number"
+              ? (quantitiesBlockedCorrectly[JSON.stringify(v.date)] += 1)
+              : (quantitiesBlockedCorrectly[JSON.stringify(v.date)] = 1);
+          } else {
+            typeof quantitiesBlockedUncorrectly[JSON.stringify(v.date)] ===
+            "number"
+              ? (quantitiesBlockedUncorrectly[JSON.stringify(v.date)] += 1)
+              : (quantitiesBlockedUncorrectly[JSON.stringify(v.date)] = 1);
+          }
         } else {
           typeof quantitiesUnblocked[JSON.stringify(v.date)] === "number"
             ? (quantitiesUnblocked[JSON.stringify(v.date)] += 1)
             : (quantitiesUnblocked[JSON.stringify(v.date)] = 1);
-        }
-
-        if (v.blockedCorrect) {
-          typeof quantitiesBlockedCorrectly[JSON.stringify(v.date)] === "number"
-            ? (quantitiesBlockedCorrectly[JSON.stringify(v.date)] += 1)
-            : (quantitiesBlockedCorrectly[JSON.stringify(v.date)] = 1);
-        } else {
-          typeof quantitiesBlockedUncorrectly[JSON.stringify(v.date)] ===
-          "number"
-            ? (quantitiesBlockedUncorrectly[JSON.stringify(v.date)] += 1)
-            : (quantitiesBlockedUncorrectly[JSON.stringify(v.date)] = 1);
         }
 
         if (
@@ -119,8 +121,18 @@ export default function Admin() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="blocked" stackId="a" fill="#82ca9d" />
-            <Bar dataKey="unblocked" stackId="a" fill="#8884d8" />
+            <Bar
+              dataKey="blocked"
+              name="Armazenados"
+              stackId="a"
+              fill="#82ca9d"
+            />
+            <Bar
+              dataKey="unblocked"
+              name="Aguardando armazenamento"
+              stackId="a"
+              fill="#8884d8"
+            />
           </BarChart>
         </Card>
         <br />
@@ -142,8 +154,18 @@ export default function Admin() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="blockedCorrect" stackId="a" fill="#82ca9d" />
-            <Bar dataKey="blockedUncorrect" stackId="a" fill="#8884d8" />
+            <Bar
+              dataKey="blockedCorrect"
+              name="Armazenados corretamente"
+              stackId="a"
+              fill="#82ca9d"
+            />
+            <Bar
+              dataKey="blockedUncorrect"
+              name="Divergencia no objeto armazenado"
+              stackId="a"
+              fill="#8884d8"
+            />
           </BarChart>
         </Card>
       </Route>

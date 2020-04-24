@@ -63,9 +63,9 @@ export default function Patients() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {patients.map((v, i) => (
-              <TableItem value={{ ...v, i }} key={v._id} />
-            ))}
+            {patients.map((v, i) => {
+              return <TableItem value={{ ...v, i }} key={v._id} />;
+            })}
           </TableBody>
         </Table>
       </Paper>
