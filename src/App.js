@@ -12,10 +12,10 @@ import MakeAppointment from "./components/MakeAppointment";
 import Patient from "./components/Patient";
 
 function App() {
-  const [{ user, listening }, actions] = useContext(GlobalContext);
+  const [{ user, listening, api }, actions] = useContext(GlobalContext);
   const match = useRouteMatch();
 
-  if (!user) {
+  if (!user && api) {
     return <Login />;
   }
 

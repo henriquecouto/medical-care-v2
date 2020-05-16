@@ -11,11 +11,12 @@ import {
   TableBody,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import API from "../../utils/API";
+import { getUrl } from "../../utils/API";
 import { GlobalContext } from "../../Context/global";
 import { useCallback } from "react";
 import Appointment from "../Appointment";
 import Demographic from "../Demographic";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,31 +45,33 @@ export default function () {
   const [patient, setPatient] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const { patientId } = useParams();
-  const [{ user }] = useContext(GlobalContext);
+  const [{ user, api }] = useContext(GlobalContext);
 
   const classes = useStyles();
 
   const loadAppointments = useCallback(async () => {
-    try {
-      const {
-        data: { data },
-      } = await API.get(`/patients/${patientId}/appointments`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      setAppointments(data);
-    } catch (error) {}
-  }, [patientId, user.token]);
+    if (api) {
+      try {
+        const {
+          data: { data },
+        } = await Axios.get(`${api}/patients/${patientId}/appointments`, {
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+        setAppointments(data);
+      } catch (error) {}
+    }
+  }, [patientId, user.token, api]);
 
   const loadPatient = useCallback(async () => {
     try {
       const {
         data: { data },
-      } = await API.get(`/patients/${patientId}`, {
+      } = await Axios.get(`${api}/patients/${patientId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setPatient(data);
     } catch (error) {}
-  }, [patientId, user.token]);
+  }, [patientId, user.token, api]);
 
   useEffect(() => {
     loadPatient();

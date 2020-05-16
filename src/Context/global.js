@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import { login, logout, checkLogin } from "./Actions/auth";
-import API from "../utils/API";
+import { getUrl } from "../utils/API";
 import { startAppointment, add, remove, finalize } from "./Actions/appointment";
 import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
+import Axios from "axios";
 
 export const GlobalContext = createContext();
 
@@ -15,6 +16,11 @@ export const GlobalContextProvider = ({ children }) => {
     appointment: null,
     redirect: "",
   });
+  const [api, setApi] = useState("");
+
+  useEffect(() => {
+    getUrl(setApi);
+  }, []);
   const history = useHistory();
 
   const isLogged = async () => {
@@ -23,9 +29,9 @@ export const GlobalContextProvider = ({ children }) => {
   };
 
   const loadPatients = useCallback(async () => {
-    if (state.user) {
+    if (state.user && api) {
       try {
-        const { data } = await API.get("/patients", {
+        const { data } = await Axios.get(`${api}/patients`, {
           headers: { Authorization: `Bearer ${state.user.token}` },
         });
         setState((prev) => ({
@@ -36,7 +42,7 @@ export const GlobalContextProvider = ({ children }) => {
         alert("Não foi possível carregar os pacientes");
       }
     }
-  }, [state.user]);
+  }, [state.user, api]);
 
   useEffect(() => {
     isLogged();
@@ -88,13 +94,13 @@ export const GlobalContextProvider = ({ children }) => {
     start: startAppointment(state, setState),
     add: add(setState),
     remove: remove(setState),
-    finalize: finalize(setState),
+    finalize: finalize(setState, api),
   };
 
   const actions = { message, listening, user, appointment, patient };
 
   return (
-    <GlobalContext.Provider value={[state, actions]}>
+    <GlobalContext.Provider value={[{ ...state, api }, actions]}>
       {children}
     </GlobalContext.Provider>
   );

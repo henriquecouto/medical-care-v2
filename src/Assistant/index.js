@@ -21,10 +21,10 @@ export default function Assistent({ children, lang }) {
         soundex: true,
         debug: true,
         speed: 0.9,
-        // executionKeyword: "Sara",
-        obeyKeyword: "Sara",
+        executionKeyword: "Olívia",
+        obeyKeyword: "Olívia",
         listen: true,
-        name: "Sara",
+        name: "Olívia",
         mode: "normal",
       })
       .then(() => {

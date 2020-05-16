@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Paper, Typography, Grid, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import API from "../../utils/API";
+import { getUrl } from "../../utils/API";
 import CustomAlert from "../CustomAlert";
 import { GlobalContext } from "../../Context/global";
+import Axios from "axios";
 
 const errors = {
   "user not found": "Usuário não encontrado!",
@@ -36,6 +37,11 @@ export default function Login() {
 
   const [form, setForm] = useState({ login: "", password: "" });
   const [error, setError] = useState({ status: false, message: "" });
+  const [api, setApi] = useState("");
+
+  useEffect(() => {
+    getUrl(setApi);
+  }, []);
 
   const clearResult = () => setError({ status: false });
 
@@ -46,10 +52,13 @@ export default function Login() {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/auth/login", form);
+      const { data } = await Axios.post(`${api}/auth/login`, form);
       listening.set(true);
       user.login(data);
-    } catch ({ response: { data } }) {
+    } catch (e) {
+      const {
+        response: { data },
+      } = e;
       setError({ status: true, message: errors[data.message] });
     }
   };

@@ -1,4 +1,4 @@
-import API from "../../utils/API";
+import Axios from "axios";
 
 const appointmentBase = {
   exams: [],
@@ -56,7 +56,7 @@ export const remove = (setState) => (item, field, callback) => {
   });
 };
 
-export const finalize = (setState) => async (callback) => {
+export const finalize = (setState, api) => async (callback) => {
   let state;
 
   setState((prev) => {
@@ -76,7 +76,7 @@ export const finalize = (setState) => async (callback) => {
   };
 
   try {
-    await API.post("/appointments", appointment, {
+    await Axios.post(`${api}/appointments`, appointment, {
       headers: { Authorization: `Bearer ${state.user.token}` },
     });
     setState((prev) => ({
