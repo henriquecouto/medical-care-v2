@@ -21,7 +21,7 @@ export const getUrl = (callback) => {
     .collection("api")
     .doc("url")
     .get()
-    .then((snapshot) => callback(snapshot.data().url));
+    .then((snapshot) => callback(snapshot.data().urlLocal));
 };
 
 // export default Axios.create({
