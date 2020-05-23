@@ -32,6 +32,8 @@ export default function Admin() {
   const [storage, setStorage] = useState([]);
   const [assurance, setAssurance] = useState([]);
   const [period, setPeriod] = useState([]);
+  const [sended, setSended] = useState([]);
+  const [notification, setNotification] = useState([]);
 
   const loadData = useCallback(
     async (type, callback, body = {}, req) => {
@@ -47,7 +49,7 @@ export default function Admin() {
     if (user) {
       loadData("blocked", setStorage, {}, "get");
     }
-  }, [loadData, user, selectedPeriod]);
+  }, [loadData, user]);
 
   useEffect(() => {
     if (user) {
@@ -61,16 +63,30 @@ export default function Admin() {
     }
   }, [loadData, user, selectedPeriod]);
 
+  useEffect(() => {
+    if (user) {
+      loadData("sended", setSended, {}, "get");
+    }
+  }, [loadData, user]);
+
+  useEffect(() => {
+    if (user) {
+      loadData("notification", setNotification, {}, "get");
+    }
+  }, [loadData, user]);
+
   if (!user && api) {
     return <Login />;
   }
 
-  console.log(period);
-
   return (
     <Header>
       <Route exact path="/admin">
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          style={{ overflow: "auto", height: "90vh" }}
+        >
           <Grid item xs={6}>
             <Card title="Status de armazenamento blockchain">
               <BarChart
@@ -130,7 +146,7 @@ export default function Admin() {
                 />
                 <Bar
                   dataKey="wrong"
-                  name="Divergencia no objeto armazenado"
+                  name="Divergência no objeto armazenado"
                   stackId="a"
                   fill="#8884d8"
                 />
@@ -174,6 +190,72 @@ export default function Admin() {
                   fill="url(#colorPv)"
                 />
               </AreaChart>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card title="Confiança de envio ao app">
+              <BarChart
+                width={window.innerWidth / 2 - 100}
+                height={300}
+                data={sended}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="right"
+                  name="Chegou corretamente"
+                  stackId="a"
+                  fill="#82ca9d"
+                />
+                <Bar
+                  dataKey="wrong"
+                  name="Divergência no objeto recebido"
+                  stackId="a"
+                  fill="#8884d8"
+                />
+              </BarChart>
+            </Card>
+          </Grid>
+          <Grid item xs={6}>
+            <Card title="Status de notificações">
+              <BarChart
+                width={window.innerWidth / 2 - 100}
+                height={300}
+                data={sended}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="right"
+                  name="Notificou corretamente"
+                  stackId="a"
+                  fill="#82ca9d"
+                />
+                <Bar
+                  dataKey="wrong"
+                  name="Notificou quantidade de vezes errada"
+                  stackId="a"
+                  fill="#8884d8"
+                />
+              </BarChart>
             </Card>
           </Grid>
         </Grid>
