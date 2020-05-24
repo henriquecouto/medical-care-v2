@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Assistant from "./Assistant";
-import { Grid, Divider, Button } from "@material-ui/core";
+import { Grid, Divider, Button, CircularProgress } from "@material-ui/core";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -15,7 +15,20 @@ function App() {
   const [{ user, listening, api }, actions] = useContext(GlobalContext);
   const match = useRouteMatch();
 
-  if (!user && api) {
+  if (!api) {
+    return (
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
+  if (!user) {
     return <Login />;
   }
 

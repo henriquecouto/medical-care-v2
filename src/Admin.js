@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback, useEffect } from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, CircularProgress } from "@material-ui/core";
 import { Route } from "react-router-dom";
 import Header from "./components/Header";
 import { GlobalContext } from "./Context/global";
@@ -24,6 +24,7 @@ const periodValues = ["daily", "monthly", "yearly"];
 
 export default function Admin() {
   const [{ user, api }] = useContext(GlobalContext);
+
   const [selectedPeriod, setSelectedPeriod] = useState({
     value: periodValues[1],
     quantity: 5,
@@ -75,7 +76,20 @@ export default function Admin() {
     }
   }, [loadData, user]);
 
-  if (!user && api) {
+  if (!api) {
+    return (
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <CircularProgress />
+      </Grid>
+    );
+  }
+
+  if (!user) {
     return <Login />;
   }
 

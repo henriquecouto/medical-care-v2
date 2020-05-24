@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-export default function Header({ children }) {
+export default function Header({ children, title }) {
   const classes = useStyles();
   const [, actions] = useContext(GlobalContext);
 
@@ -37,7 +37,9 @@ export default function Header({ children }) {
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
               <Grid container alignItems="center">
-                <Typography variant="h6">Medical Care</Typography>
+                <Typography variant="h6">
+                  {!!title ? title : "Medical Care"}
+                </Typography>
               </Grid>
             </Grid>
             <Grid item>
