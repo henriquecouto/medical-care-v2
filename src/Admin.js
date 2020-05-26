@@ -244,7 +244,7 @@ export default function Admin() {
               <BarChart
                 width={window.innerWidth / 2 - 100}
                 height={300}
-                data={sended}
+                data={notification}
                 margin={{
                   top: 20,
                   right: 30,
