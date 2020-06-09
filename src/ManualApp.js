@@ -60,27 +60,27 @@ const menu = [
   },
   {
     text: "Visualizar os tratamentos",
-    id: "iniciar-atendimento",
+    id: "visualizar-tratamentos",
     desc:
       "visualiza os tratamentos que estão em execução no momento, mostrando todas as informações do mesmo.",
     command: ["Mostrar Tratamento. - ou - Listar tratamentos."],
   },
   {
     text: "Atualizar",
-    id: "finalizar-atendimento",
+    id: "artualizar-app",
     desc: "Faz o app buscar e atualizar seudados com o servidor.",
     command: ["Atualizar. - ou - Atualizar tratamentos. - ou - recarregar."],
   },
   {
     text: "Mostrar tratamentos concluídos",
-    id: "adicionar-exame",
+    id: "mostrar-concluidos",
     desc:
       "Lista todos os tratamentos que você ja finalizou.",
     command: ["Listar concluídos."],
   },
   {
     text: "Listar remédios",
-    id: "remover-exame",
+    id: "listar-remedios",
     desc: "Lista todos os remédios que você está tomando.",
     command: ["Mostrar remédios. - ou - Listar remédios."],
   },
