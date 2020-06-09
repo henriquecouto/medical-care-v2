@@ -7,6 +7,7 @@ import { GlobalContextProvider } from "./Context/global";
 import App from "./App";
 import Admin from "./Admin";
 import Manual from "./Manual";
+import ManualApp from "./ManualApp";
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +32,9 @@ ReactDOM.render(
         </Route>
         <Route path="/manual">
           <Manual />
+        </Route>
+        <Route path="/manualApp">
+          <ManualApp />
         </Route>
       </GlobalContextProvider>
     </Router>
