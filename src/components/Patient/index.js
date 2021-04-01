@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -9,14 +10,21 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  Button,
+  DialogActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { getUrl } from "../../utils/API";
 import { GlobalContext } from "../../Context/global";
 import { useCallback } from "react";
 import Appointment from "../Appointment";
 import Demographic from "../Demographic";
 import Axios from "axios";
+import { encrypt } from "../../utils/crypto";
+import routes from "../../constants/routes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,9 +49,86 @@ const Parent = ({ relationship, condition, note }) => {
   );
 };
 
+const AllowAccessModal = ({ appointment, onClose }) => {
+  const [{ user, api }] = useContext(GlobalContext);
+  const [form, setForm] = useState({
+    applicationAddress: `${location.origin}${routes.externalAccess}`,
+    contractAddress: appointment.blockedContractAddress,
+  });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = { ...form };
+    data.accountAddress = encrypt("0xbcb9670df202256b07852a802A540F18DBf8A9e4");
+    data.allowUntil = Date.parse(data.allowUntil) / 1000;
+    const result = await Axios.post(`${api}/appointments/allow-access`, data, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    console.log({ result });
+  };
+
+  return (
+    <Dialog open={!!appointment} onClose={onClose}>
+      <DialogTitle>Liberar acesso temporário o atendimento</DialogTitle>
+      <form onSubmit={onSubmit}>
+        <DialogContent dividers>
+          <Grid container direction="column" spacing={2}>
+            <Grid item xs>
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={({ target: { value } }) =>
+                  setForm((old) => ({ ...old, email: value }))
+                }
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Conta"
+                value={form.accountAddress}
+                onChange={({ target: { value } }) =>
+                  setForm((old) => ({ ...old, accountAddress: value }))
+                }
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="date"
+                placeholder="Data limite"
+                value={form.allowUntil}
+                onChange={({ target: { value } }) =>
+                  setForm((old) => ({ ...old, allowUntil: value }))
+                }
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button variant="contained" color="primary" type="submit">
+            Pronto
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
+  );
+};
+
 export default function () {
   const [patient, setPatient] = useState(null);
   const [appointments, setAppointments] = useState([]);
+  const [allowAccessModal, setAllowAccessModal] = useState({
+    appointment: null,
+  });
   const { patientId } = useParams();
   const [{ user, api }] = useContext(GlobalContext);
 
@@ -81,6 +166,12 @@ export default function () {
   if (patient) {
     return (
       <div className={classes.root}>
+        {allowAccessModal.appointment && (
+          <AllowAccessModal
+            appointment={allowAccessModal.appointment}
+            onClose={() => setAllowAccessModal({ appointment: null })}
+          />
+        )}
         <Grid container spacing={2} className={classes.grid} direction="column">
           {patient && (
             <>
@@ -116,7 +207,12 @@ export default function () {
           {appointments.map((v) => {
             return (
               <Grid item key={v._id}>
-                <Appointment data={v} />
+                <Appointment
+                  data={v}
+                  allowAccess={(appointment) =>
+                    setAllowAccessModal({ appointment })
+                  }
+                />
               </Grid>
             );
           })}
