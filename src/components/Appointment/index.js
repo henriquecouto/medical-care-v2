@@ -12,25 +12,24 @@ import {
   IconButton,
   Tooltip,
   Button,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {
-  Help as HelpIcon,
-  ExpandMore as ExpandMoreIcon,
-} from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Help as HelpIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: "relative",
     padding: theme.spacing(2),
     width: "100%",
   },
   table: {
     minWidth: 650,
+  },
+  allowAccessButton: {
+    position: "absolute",
+    top: theme.spacing(2),
+    right: theme.spacing(2),
   },
 }));
 
@@ -58,12 +57,9 @@ const Medication = ({ name, interval, recurrencies, initialDate }) => {
   );
 };
 
-export default function Appointment({
-  data: { exams, symptoms, diagnosis, treatment, blocked, ...others },
-}) {
+export default function Appointment({ data, allowAccess }) {
+  const { exams, symptoms, diagnosis, treatment, blocked } = data;
   const classes = useStyles();
-
-  console.log(others);
 
   return (
     <Paper component={Grid} className={classes.root}>
@@ -106,6 +102,16 @@ export default function Appointment({
           {blocked ? "Sim" : "Não"}
         </Typography>
       </Grid>
+      {blocked && (
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.allowAccessButton}
+          onClick={() => allowAccess(data)}
+        >
+          Liberar Acesso
+        </Button>
+      )}
     </Paper>
   );
 }
