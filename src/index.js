@@ -8,6 +8,8 @@ import App from "./App";
 import Admin from "./Admin";
 import Manual from "./Manual";
 import ManualApp from "./ManualApp";
+import routes from "./constants/routes";
+import ExternalAccess from "./components/ExternalAccess";
 
 const theme = createMuiTheme({
   palette: {
@@ -22,19 +24,22 @@ ReactDOM.render(
     <Router>
       <GlobalContextProvider>
         <Route exact path="/">
-          <Redirect to="/app" />
+          <Redirect to={routes.assistant} />
         </Route>
-        <Route exact path="/admin">
+        <Route exact path={routes.admin}>
           <Admin />
         </Route>
-        <Route path="/app">
+        <Route path={routes.assistant}>
           <App />
         </Route>
-        <Route path="/manual">
+        <Route path={routes.manual}>
           <Manual />
         </Route>
-        <Route path="/manualApp">
+        <Route path={routes.manualApp}>
           <ManualApp />
+        </Route>
+        <Route path={routes.externalAccess}>
+          <ExternalAccess />
         </Route>
       </GlobalContextProvider>
     </Router>

@@ -38,7 +38,7 @@ export default function Demographic({ patient }) {
             />
           ) : (
             <Avatar className={classes.avatar}>
-              {patient.user.name[0].toUpperCase()}
+              {patient.user?.name[0].toUpperCase()}
             </Avatar>
           )}
         </Grid>
@@ -49,7 +49,7 @@ export default function Demographic({ patient }) {
               variant="h4"
               className={classNames(classes.item, classes.first)}
             >
-              {patient.user.name.toUpperCase()}
+              {patient.user?.name.toUpperCase()}
             </Typography>
             <Typography variant="body1" className={classes.item}>
               Data de nascimento:{" "}
