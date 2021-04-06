@@ -9,6 +9,7 @@ import Admin from "./Admin";
 import Manual from "./Manual";
 import ManualApp from "./ManualApp";
 import routes from "./constants/routes";
+import ExternalAccess from "./components/ExternalAccess";
 
 const theme = createMuiTheme({
   palette: {
@@ -36,6 +37,9 @@ ReactDOM.render(
         </Route>
         <Route path={routes.manualApp}>
           <ManualApp />
+        </Route>
+        <Route path={routes.externalAccess}>
+          <ExternalAccess />
         </Route>
       </GlobalContextProvider>
     </Router>

@@ -39,7 +39,7 @@ const Items = ({ name, items }) => {
       <Typography variant="h6" style={{ marginRight: 10 }}>
         {name}:{" "}
       </Typography>
-      {items.map((exam, index) => (
+      {items?.map((exam, index) => (
         <Chip key={index} label={exam} />
       ))}
     </Grid>
@@ -71,7 +71,7 @@ export default function Appointment({ data, allowAccess }) {
         <Typography variant="h6" style={{ marginRight: 10 }}>
           Tratamento:
         </Typography>
-        {!!treatment.length && (
+        {!!treatment?.length && (
           <Paper>
             <Table className={classes.table}>
               <TableHead>

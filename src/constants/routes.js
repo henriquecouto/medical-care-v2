@@ -1,5 +1,5 @@
 export default {
-  externalAccess: "/",
+  externalAccess: "/atendimento",
   assistant: "/app",
   admin: "/admin",
   manual: "/manual",
